@@ -5,8 +5,6 @@ namespace Veronica\Tests;
 use Veronica\Invoice;
 // use GuzzleHttp\Client;
 
-use Veronica\Request;
-
 const BASE_PATH = 'https://api-sbox.veronica.ec/api/v1.0/';
 
 class InvoiceTest extends TestCase
@@ -67,7 +65,7 @@ class InvoiceTest extends TestCase
         $invoice = new Invoice($username, $password, $clientId, $clientSecret);
         $token = json_decode('{"access_token":"c67f9b11-3ada-4a54-b8e7-65c57f049771","token_type":"bearer","refresh_token":"403381b0-b05c-460c-b1a1-c78c0ccc3cf5","expires_in":43199,"scope":"read write","time":1618584256}', true);
         $invoice->setToken($token);
-        echo json_encode($invoice->getToken()), PHP_EOL;
+        // echo json_encode($invoice->getToken()), PHP_EOL;
         $data = $invoice->find('2303202101050350121500110010020000000204153076117');
         // $data = $invoice->first();
         print_r($data);

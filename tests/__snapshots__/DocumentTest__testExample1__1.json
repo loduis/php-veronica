@@ -1,0 +1,91 @@
+{
+    "infoTributaria": {
+        "ambiente": 1,
+        "tipoEmision": 1,
+        "razonSocial": "Distribuidora de Suministros Nacional S.A.",
+        "nombreComercial": "Empresa Importadora y Exportadora de Piezas",
+        "ruc": "1792146739001",
+        "claveAcceso": "2110201201179214673900110010010000000014126153318",
+        "codDoc": "01",
+        "secuencial": "000000001",
+        "dirMatriz": "Enrique Guerrero Portilla OE1-34 AV. Galo Plaza Lasso"
+    },
+    "infoFactura": {
+        "fechaEmision": "21\/10\/2012",
+        "dirEstablecimiento": "Enrique Guerrero Portilla OE1-34 AV. Galo Plaza Lasso",
+        "obligadoContabilidad": "NO",
+        "tipoIdentificacionComprador": "04",
+        "guiaRemision": "001-001-000000001",
+        "razonSocialComprador": "PRUEBAS SERVICIO DE RENTAS INTERNAS",
+        "identificacionComprador": "1713328506001",
+        "direccionComprador": "salinas y santiago",
+        "totalSinImpuestos": 295000,
+        "totalDescuento": 5005,
+        "totalConImpuestos": [
+            {
+                "codigo": 3,
+                "codigoPorcentaje": 3072,
+                "baseImponible": 295000,
+                "tarifa": 5,
+                "valor": 14750
+            },
+            {
+                "codigo": 2,
+                "codigoPorcentaje": 2,
+                "descuentoAdicional": 5,
+                "baseImponible": 309750,
+                "valor": 37169.4
+            },
+            {
+                "codigo": 5,
+                "codigoPorcentaje": 5001,
+                "baseImponible": 12000,
+                "valor": 240
+            }
+        ],
+        "propina": 0,
+        "importeTotal": 347159.4,
+        "moneda": "DOLLAR",
+        "pagos": [
+            {
+                "formaPago": "01",
+                "total": 347159.4,
+                "plazo": 30,
+                "unidadTiempo": "Dias"
+            }
+        ]
+    },
+    "detalles": [
+        {
+            "codigoPrincipal": "125BJC-01",
+            "descripcion": "CAMIONETA 4X4 DIESEL 3.7",
+            "cantidad": 1,
+            "precioUnitario": 300000,
+            "descuento": 5000,
+            "precioTotalSinImpuesto": 295000,
+            "impuestos": [
+                {
+                    "codigo": 3,
+                    "codigoPorcentaje": 3072,
+                    "baseImponible": 295000,
+                    "tarifa": 5,
+                    "valor": 14750
+                },
+                {
+                    "codigo": 2,
+                    "codigoPorcentaje": 2,
+                    "baseImponible": 309750,
+                    "tarifa": 12,
+                    "valor": 37170
+                },
+                {
+                    "codigo": 5,
+                    "codigoPorcentaje": 5001,
+                    "baseImponible": 12000,
+                    "tarifa": 0.02,
+                    "valor": 240
+                }
+            ]
+        }
+    ]
+}

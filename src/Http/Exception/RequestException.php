@@ -1,6 +1,8 @@
 <?php
 
-namespace Veronica\Exception;
+declare(strict_types=1);
+
+namespace Veronica\Http\Exception;
 
 use ArrayObject;
 

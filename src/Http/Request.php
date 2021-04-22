@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Veronica;
+namespace Veronica\Http;
 
 use ArrayObject;
 use Throwable;
-use Veronica\Exception\RequestException;
+use Veronica\Http\Exception\RequestException;
+use const Veronica\ENV_TEST;
+use function Veronica\arr_obj;
 
 abstract class Request
 {
@@ -22,21 +24,24 @@ abstract class Request
 
     private string $clientSecret;
 
-    public function __construct(string $username, string $password, string $clientId, string $clientSecret, int $enviroment = ENV_TEST)
+    protected int $environment;
+
+    public function __construct(string $username, string $password, string $clientId, string $clientSecret, int $environment = ENV_TEST)
     {
-        $this->client = new Client($enviroment);
+        $this->client = new Client($environment);
         $this->username = $username;
         $this->password = $password;
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
+        $this->environment = $environment;
     }
 
     public function find(string $trackId): ?iterable
     {
         try {
-            $res = $this->request(Client::GET, 'comprobantes/' . $trackId);
+            $res = $this->request(GET, 'comprobantes/' . $trackId);
         } catch (RequestException $e) {
-            if ($e->response->error === RequestException::NOT_FOUND) {
+            if ($e->response->error == RequestException::NOT_FOUND) {
                 return null;
             }
             throw $e;
@@ -79,7 +84,7 @@ abstract class Request
 
     public function all(iterable $params = []): iterable
     {
-        return $this->request(Client::GET, $this->path, $params);
+        return $this->request(GET, $this->path, $params);
     }
 
     protected function toISO(string $date): ?string
@@ -133,10 +138,7 @@ abstract class Request
 
     protected function useToken(iterable $token): void
     {
-
         $this->client->setToken($token['access_token']);
-
         $this->token = $token;
     }
 }
-

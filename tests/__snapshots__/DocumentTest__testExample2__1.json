@@ -1,0 +1,65 @@
+{
+    "infoTributaria": {
+        "ambiente": 1,
+        "tipoEmision": 1,
+        "razonSocial": "Distribuidora de Suministros Nacional S.A.",
+        "nombreComercial": "israteneda",
+        "ruc": "0503501215001",
+        "claveAcceso": "2303202101050350121500110010020000000204153076118",
+        "codDoc": "01",
+        "secuencial": "000000020",
+        "dirMatriz": "Rio Tigre y Rio Ana Tenorio, Salcedo, Cotopaxi"
+    },
+    "infoFactura": {
+        "fechaEmision": "23/03/2021",
+        "dirEstablecimiento": "Rio Tigre y Rio Ana Tenorio, Salcedo, Cotopaxi",
+        "obligadoContabilidad": "NO",
+        "tipoIdentificacionComprador": "08",
+        "razonSocialComprador": "ioet Inc.",
+        "identificacionComprador": "47-10803393",
+        "direccionComprador": "1491 Cypress Drive. Suite #853. Pebble Beach, California 93953",
+        "totalSinImpuestos": 600,
+        "totalDescuento": 0,
+        "totalConImpuestos": [
+            {
+                "codigo": 2,
+                "codigoPorcentaje": 0,
+                "descuentoAdicional": 0,
+                "baseImponible": 0,
+                "tarifa": 0,
+                "valor": 0
+            }
+        ],
+        "propina": 0,
+        "importeTotal": 600,
+        "moneda": "DOLLAR",
+        "pagos": [
+            {
+                "formaPago": "20",
+                "total": 600,
+                "plazo": 0,
+                "unidadTiempo": "Dias"
+            }
+        ]
+    },
+    "detalles": [
+        {
+            "codigoPrincipal": "831429900",
+            "descripcion": "Otros Servicios de Dise\u00f1o y Desarrollo de la Tecnolog\u00eda de la Informaci\u00f3n (IT) Para Redes y Sistemas, N.C.P. (831429900)",
+            "cantidad": 1,
+            "precioUnitario": 600,
+            "descuento": 0,
+            "precioTotalSinImpuesto": 600,
+            "impuestos": [
+                {
+                    "codigo": 2,
+                    "codigoPorcentaje": 0,
+                    "descuentoAdicional": 0,
+                    "baseImponible": 0,
+                    "tarifa": 0,
+                    "valor": 0
+                }
+            ]
+        }
+    ]
+}

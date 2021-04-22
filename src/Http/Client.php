@@ -2,16 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Veronica;
+namespace Veronica\Http;
 
-use Veronica\Exception\RequestException;
+use Veronica\Http\Exception\RequestException;
+use const Veronica\{
+    ENV_PRO
+};
+use function Veronica\{
+    arr_obj
+};
+
+const POST = 'POST';
+const GET = 'GET';
 
 class Client
 {
-    public const POST = 'POST';
-
-    public const GET = 'GET';
-
     private string $baseApi = 'https://api-sbox.veronica.ec/api/v1.0/';
 
     private ?string $token;
@@ -26,9 +31,9 @@ class Client
         CURLOPT_FOLLOWLOCATION => false
     ];
 
-    public function __construct(int $enviroment)
+    public function __construct(int $environment)
     {
-        if ($enviroment === ENV_PRO) {
+        if ($environment === ENV_PRO) {
             $this->baseApi = str_replace('-sbox', '', $this->baseApi);
         }
         $this->handle = curl_init();
@@ -50,7 +55,7 @@ class Client
     {
         $this->token = null;
 
-        $token = $this->request(static::POST, $path, $params['user'], [
+        $token = $this->request(POST, $path, $params['user'], [
             CURLOPT_USERPWD =>  implode(':', $params['client']),
         ]);
         $this->token = $token['access_token'];
@@ -64,7 +69,7 @@ class Client
         $headers = [
             'Accept: application/json',
         ];
-        if ($method == static::POST) {
+        if ($method == POST) {
             if ($this->token) {
                 $headers[] =  'Content-Type: application/json';
                 $request = json_encode($params);
@@ -83,10 +88,12 @@ class Client
         $options[CURLOPT_URL] = $this->baseApi . $path;
         curl_setopt_array($this->handle, $options);
         $response = curl_exec($this->handle);
-        echo $response, PHP_EOL,
         curl_reset($this->handle);
         if (($no = curl_errno($this->handle))) {
-            $this->throwError($no, curl_error($this->handle), $request, ['message' => $response, 'error' => 'request']);
+            $this->throwError($no, curl_error($this->handle), $request, [
+                'message' => $response,
+                'error' => 'request'
+            ]);
         }
         $result = json_decode($response, true);
         if (($result['success'] ?? null) === false) {
