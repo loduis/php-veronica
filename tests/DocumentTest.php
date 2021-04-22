@@ -155,7 +155,7 @@ class DocumentTest extends TestCase
                             'code' => 2, // IVA
                             'rate_code' => 0,
                             'discount' => '0.00',
-                            'base' => '0.00',
+                            'base' => '600.00',
                             'rate' => 0,
                             'amount' => '0.00',
                         ],
@@ -166,8 +166,8 @@ class DocumentTest extends TestCase
                 [
                     'code' => 2, // IVA
                     'rate_code' => 0,
-                    'discount' => 0,
-                    'base' => 0,
+                    'discount' => '0.00',
+                    'base' => '600.00',
                     'rate' => 0,
                     'amount' => '0.00',
                 ],

@@ -86,7 +86,7 @@ class Document extends \XML\Document
                     'totalImpuesto' => $this->taxes,
                 ],
                 // <compensaciones></compensaciones>
-                'propina' => $this->tip ?? 0,
+                'propina' => $this->tip ?? '0.00',
                 // <fleteInternacional>50.00</fleteInternacional>
                 // <seguroInternacional>50.00</seguroInternacional>
                 // <gastosAduaneros>50.00</gastosAduaneros>
@@ -97,8 +97,8 @@ class Document extends \XML\Document
                 'pagos' => [
                     'pago' => $this->payments,
                 ],
-                'valorRetIva' => $this->withholding->vat ?? 0,
-                'valorRetRenta' => $this->withholding->renta ?? 0,
+                'valorRetIva' => $this->withholding->vat ?? '0.00',
+                'valorRetRenta' => $this->withholding->renta ?? '0.00',
             ]),
             'detalles' => [
                 'detalle' => $this->items

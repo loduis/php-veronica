@@ -21,48 +21,48 @@
     <razonSocialComprador>ioet Inc.</razonSocialComprador>
     <identificacionComprador>47-10803393</identificacionComprador>
     <direccionComprador>1491 Cypress Drive. Suite #853. Pebble Beach, California 93953</direccionComprador>
-    <totalSinImpuestos>600</totalSinImpuestos>
-    <totalDescuento>0</totalDescuento>
+    <totalSinImpuestos>600.00</totalSinImpuestos>
+    <totalDescuento>0.00</totalDescuento>
     <totalConImpuestos>
       <totalImpuesto>
         <codigo>2</codigo>
         <codigoPorcentaje>0</codigoPorcentaje>
-        <descuentoAdicional>0</descuentoAdicional>
-        <baseImponible>0</baseImponible>
+        <descuentoAdicional>0.00</descuentoAdicional>
+        <baseImponible>600.00</baseImponible>
         <tarifa>0</tarifa>
-        <valor>0</valor>
+        <valor>0.00</valor>
       </totalImpuesto>
     </totalConImpuestos>
-    <propina>0</propina>
-    <importeTotal>600</importeTotal>
+    <propina>0.00</propina>
+    <importeTotal>600.00</importeTotal>
     <moneda>DOLAR</moneda>
     <pagos>
       <pago>
         <formaPago>20</formaPago>
-        <total>600</total>
+        <total>600.00</total>
         <plazo>0</plazo>
         <unidadTiempo>dias</unidadTiempo>
       </pago>
     </pagos>
-    <valorRetIva>0</valorRetIva>
-    <valorRetRenta>0</valorRetRenta>
+    <valorRetIva>0.00</valorRetIva>
+    <valorRetRenta>0.00</valorRetRenta>
   </infoFactura>
   <detalles>
     <detalle>
       <codigoPrincipal>831429900</codigoPrincipal>
       <descripcion>Otros Servicios de Diseño y Desarrollo de la Tecnología de la Información (IT) Para Redes y Sistemas, N.C.P. (831429900)</descripcion>
       <cantidad>1</cantidad>
-      <precioUnitario>600</precioUnitario>
-      <descuento>0</descuento>
-      <precioTotalSinImpuesto>600</precioTotalSinImpuesto>
+      <precioUnitario>600.00</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>600.00</precioTotalSinImpuesto>
       <impuestos>
         <impuesto>
           <codigo>2</codigo>
           <codigoPorcentaje>0</codigoPorcentaje>
-          <descuentoAdicional>0</descuentoAdicional>
-          <baseImponible>0</baseImponible>
+          <descuentoAdicional>0.00</descuentoAdicional>
+          <baseImponible>600.00</baseImponible>
           <tarifa>0</tarifa>
-          <valor>0</valor>
+          <valor>0.00</valor>
         </impuesto>
       </impuestos>
     </detalle>
