@@ -4,72 +4,39 @@ declare(strict_types=1);
 
 namespace Veronica;
 
-class Document
+use ArrayObject;
+use XML\Support\Element;
+use XML\Document\Creator;
+use Veronica\Document\Contact;
+
+class Document extends \XML\Document
 {
-    private int $environment;
+    protected const VERSION = '1.1.0';
 
-    private string $type;
-
-    private iterable $customer;
-
-    private iterable $supplier;
-
-    private ?iterable $withholdings = null;
-
-    private iterable $items;
-
-    private iterable $payments;
-
-    private iterable $taxes;
-
-    private string $date;
-
-    private float $discount;
-
-    private int $software_code;
-
-    private string $currency;
-
-    private string $prefix;
-
-    private string $number;
-
-    private float $net;
-
-    private float $total;
-
-    private ?string $reference = null;
-
-    private ?string $withholding_agent = null;
-
-    private float $tip = 0;
-
-    private bool $required_accounting = false;
-
-    public string $key;
-
-    protected function __construct(iterable $data)
-    {
-        foreach ($data as $key => $value) {
-            if (!property_exists($this, $key)) {
-                throw new \OutOfBoundsException('Not found property: ' . $key);
-            }
-            if (is_iterable($value)) {
-                $this->$key = arr_obj($value);
-            } else {
-                $this->$key = $value;
-            }
-        }
-        if (!isset($this->supplier->address->location)) {
-            $this->supplier->address->location = $this->supplier->address->main;
-        }
-        $this->key = $this->calculateKey();
-    }
-
-    public static function fromArray(iterable $data)
-    {
-        return new static($data);
-    }
+    protected $fillable = [
+        'environment' => 'int',
+        'type' => 'string',
+        'date' => 'string',
+        'prefix' => 'string',
+        'number' => 'string',
+        'net' => 'float',
+        'discount' => 'float',
+        'tip' => 'float',
+        'total' => 'float',
+        'reference' => 'string',
+        'withholding_agent' => 'string',
+        'required_accounting' => 'bool',
+        'softwareCode' => 'string',
+        'currency' => 'string',
+        'customer' => Contact::class,
+        'supplier' => Contact::class,
+        'location' => Element::class,
+        'items' => 'array',
+        'taxes' => 'array',
+        'payments' => 'array',
+        'withholding' => Element::class,
+        'withholdings' => 'array',
+    ];
 
     public function toArray()
     {
@@ -82,8 +49,8 @@ class Document
                 'ruc' => $this->supplier->identification->number,
                 'claveAcceso' => $this->key,
                 'codDoc' => $this->type,
-                // 'estab' => '',
-                // 'ptoEmi' => '',
+                'estab' => $this->location->main,
+                'ptoEmi' => $this->location->issue,
                 'secuencial' => $this->number,
                 'dirMatriz' => $this->supplier->address->main,
                 // 'regimenMicroempresas' => ''
@@ -115,9 +82,11 @@ class Document
                 // <totalComprobantesReembolso>50.00</totalComprobantesReembolso>
                 // <totalBaseImponibleReembolso>50.00</totalBaseImponibleReembolso>
                 // <totalImpuestoReembolso>50.00</totalImpuestoReembolso>
-                'totalConImpuestos' => $this->prepareTaxes($this->taxes),
+                'totalConImpuestos' => [
+                    'totalImpuesto' => $this->taxes,
+                ],
                 // <compensaciones></compensaciones>
-                'propina' => $this->tip,
+                'propina' => $this->tip ?? 0,
                 // <fleteInternacional>50.00</fleteInternacional>
                 // <seguroInternacional>50.00</seguroInternacional>
                 // <gastosAduaneros>50.00</gastosAduaneros>
@@ -125,48 +94,53 @@ class Document
                 'importeTotal' => $this->total, // preguntar
                 'moneda' => $this->currency, // hay que preguntar si es un currency code
                 // <placa>placa0</placa>
-                'pagos' => $this->preparePayments(),
-                // <valorRetIva>50.00</valorRetIva>
-                // <valorRetRenta>50.00</valorRetRenta>
+                'pagos' => [
+                    'pago' => $this->payments,
+                ],
+                'valorRetIva' => $this->withholding->vat ?? 0,
+                'valorRetRenta' => $this->withholding->renta ?? 0,
             ]),
-            'detalles' => $this->prepareItems(),
-            'retenciones' => $this->prepareTaxes($this->withholdings),
+            'detalles' => [
+                'detalle' => $this->items
+            ],
+            'retenciones' => $this->witholdings,
         ]);
     }
 
-    public function toJson()
+    protected function  getWitholdings(?iteable $taxes)
     {
-        return json_encode(
-            $this->toArray(),
-            JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES |
-            JSON_UNESCAPED_UNICODE
-        );
+        return $this->prepareTaxes($taxes);
+    }
+
+    protected function getTaxes(iterable $taxes)
+    {
+        return $this->prepareTaxes($taxes);
     }
 
     protected function prepareTaxes(?iterable $taxes): iterable
     {
         $data = [];
         foreach ($taxes ?? [] as $tax) {
-            $tax = arr_obj($tax);
+            $tax = new Element($tax);
             $data[] = $this->filter([
                 'codigo' => $tax->code,
                 'codigoPorcentaje' => $tax->rate_code,
-                'descuentoAdicional' => $tax->discount ?? null,
+                'descuentoAdicional' => $tax->discount,
                 'baseImponible' => $tax->base,
-                'tarifa' => $tax->rate ?? null,
+                'tarifa' => $tax->rate,
                 'valor' => $tax->amount,
-                'valorDevolucionIva' => $tax->return ?? null,
+                'valorDevolucionIva' => $tax->return,
             ]);
         }
 
         return $data;
     }
 
-    protected function prepareItems()
+    protected function getItems(iterable $items): array
     {
         $data = [];
-        foreach ($this->items as $item) {
-            $item = arr_obj($item);
+        foreach ($items as $item) {
+            $item = new Element($item);
             $data[] = $this->filter([
                 'codigoPrincipal' => $item->code,
                 'descripcion' => $item->description,
@@ -175,33 +149,35 @@ class Document
                 'precioUnitario' => $item->price,
                 'descuento' => $item->discount,
                 'precioTotalSinImpuesto' => $item->net_price,
-                'impuestos' => $this->prepareTaxes($item->taxes ?? []),
+                'impuestos' => [
+                    'impuesto' => $this->prepareTaxes($item->taxes)
+                ],
             ]);
         }
 
         return $data;
     }
 
-    protected function preparePayments()
+    protected function getPayments(?iterable $payments): array
     {
         $data = [];
-        foreach ($this->payments ?? [] as $payment) {
-            $payment = arr_obj($payment);
-            $data[] = $this->filter([
+        foreach ($payments ?? [] as $payment) {
+            $payment = new Element($payment);
+            $data[] = [
                 'formaPago' => $payment->method,
                 'total' => $payment->amount,
                 'plazo' => $payment->due_days,
-                'unidadTiempo' => $payment->due_days !== null ? 'Dias' : null,
-            ]);
+                'unidadTiempo' => $payment->due_days !== null ? 'dias' : null,
+            ];
         }
 
         return $data;
     }
 
-    private function calculateKey()
+    protected function getKey(): string
     {
         $key = implode('', [
-            str_replace('/', '', $this->date), // 1
+            $this->dateNumber, // 1
             $this->type, // 2
             $this->supplier->identification->number, // 3
             $this->environment, // 4
@@ -227,7 +203,7 @@ class Document
         return $key . $result;
     }
 
-    protected function filter(iterable $entries)
+    protected function filter(iterable $entries): array
     {
         $result = [];
         foreach ($entries as $key => $value) {
@@ -237,5 +213,36 @@ class Document
         }
 
         return $result;
+    }
+    protected function getName(): string
+    {
+        return 'factura';
+    }
+
+    protected function creator(): Creator
+    {
+        return new Creator($this, [
+            'id' => 'comprobante',
+            'version' => static::VERSION
+        ]);
+    }
+
+    protected function setPrefix(string $value): string
+    {
+        if (strpos($value, '-') === false) {
+            throw new \InvalidArgumentException('No separator - is present in prefix: ' . $value);
+        }
+        [$main, $issue] = explode('-', $value);
+        $this->location = [
+            'main' => $main,
+            'issue' => $issue,
+        ];
+
+        return $main . $issue;
+    }
+
+    protected function getDateNumber()
+    {
+        return str_replace('/', '', $this->date);
     }
 }

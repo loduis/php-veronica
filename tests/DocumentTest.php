@@ -6,12 +6,12 @@ use Veronica\Document;
 
 class DocumentTest extends TestCase
 {
-    public function testExample1()
+    public function _testExample1()
     {
         $doc = Document::fromArray([
             'type' => '01',
             'environment' => 1,
-            'currency' => 'DOLLAR',
+            'currency' => 'DOLAR',
             'date' => '21/10/2012',
             'prefix' => '001001', // es la serie
             'number' => '000000001',
@@ -113,17 +113,17 @@ class DocumentTest extends TestCase
         $doc = Document::fromArray([
             'type' => '01',
             'environment' => 1,
-            'currency' => 'DOLLAR',
+            'currency' => 'DOLAR',
             'date' => '23/03/2021',
-            'prefix' => '001002', // es la serie
+            'prefix' => '001-002', // es la serie
             'number' => '000000020',
-            'net' => 600,
-            'discount' => 0,
-            'total' => 600,
+            'net' => '600.00',
+            'discount' => '0.00',
+            'total' => '600.00',
             'software_code' => 41530761,
             // 'withholding_agent' => false,
             'supplier' => [
-                'name' => 'Distribuidora de Suministros Nacional S.A.',
+                'name' => 'Francisco Israel Teneda Gallardo',
                 'tradename' => 'israteneda',
                 'identification' => [
                     'number' => '0503501215001'
@@ -147,17 +147,17 @@ class DocumentTest extends TestCase
                     'code' => '831429900',
                     'description' => 'Otros Servicios de Diseño y Desarrollo de la Tecnología de la Información (IT) Para Redes y Sistemas, N.C.P. (831429900)',
                     'qty' => 1,
-                    'price' => 600,
-                    'net_price' => 600,
-                    'discount' => 0,
+                    'price' => '600.00',
+                    'net_price' => '600.00',
+                    'discount' => '0.00',
                     'taxes' => [
                         [
                             'code' => 2, // IVA
                             'rate_code' => 0,
-                            'discount' => 0,
-                            'base' => 0,
+                            'discount' => '0.00',
+                            'base' => '0.00',
                             'rate' => 0,
-                            'amount' => 0,
+                            'amount' => '0.00',
                         ],
                     ],
                 ],
@@ -169,17 +169,18 @@ class DocumentTest extends TestCase
                     'discount' => 0,
                     'base' => 0,
                     'rate' => 0,
-                    'amount' => 0,
+                    'amount' => '0.00',
                 ],
             ],
             'payments' => [
                 [
                     'method' => '20',
-                    'amount' => 600,
+                    'amount' => '600.00',
                     'due_days' => 0,
                 ],
             ],
         ]);
-        $this->assertMatchesJsonSnapshot($doc->toJson());
+        $this->assertMatchesXmlSnapshot($doc->pretty());
+        // $this->assertMatchesXmlSnapshot($doc->toJson());
     }
 }
