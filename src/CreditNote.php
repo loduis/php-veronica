@@ -4,17 +4,35 @@ declare(strict_types=1);
 
 namespace Veronica;
 
-class Invoice extends Document\Contract
+class CreditNote extends Document\Contract
 {
+
     public function toArray(): array
     {
         return [
-            'infoTributaria' => $this->taxInfo,
-            'infoFactura' => [
+            'infoTributaria' => [
+                'ambiente' => $this->environment,
+                'tipoEmision' => TYPE_EMISSION, // Normal es una constante por ahora
+                'razonSocial' => $this->supplier->name,
+                'nombreComercial' => $this->supplier->tradename,
+                'ruc' => $this->supplier->identification->number,
+                'claveAcceso' => $this->key,
+                'codDoc' => $this->type,
+                'estab' => $this->location->main,
+                'ptoEmi' => $this->location->issue,
+                'secuencial' => $this->number,
+                'dirMatriz' => $this->supplier->address->main,
+                // 'regimenMicroempresas' => ''
+                'agenteRetencion' => $this->withholding_agent,
+            ],
+            'infoNotaCredito' => [
                 'fechaEmision' => $this->date,
                 'dirEstablecimiento' => $this->supplier->address->location,
-                'contribuyenteEspecial' => $this->expecialCode,
-                'obligadoContabilidad' => $this->supplier->requiredAccounting ? 'SI' : 'NO',
+                // 'contribuyenteEspecial' => '',
+                'obligadoContabilidad' => $this->required_accounting ? 'SI' : 'NO',
+                'codDocModificado' => $this->reference->type,
+                'numDocModificado' => $this->reference->id,
+                'fechaEmisionDocSustento' => $this->reference->date,
                 // <comercioExterior>EXPORTADOR</comercioExterior>
                 // <incoTermFactura>A</incoTermFactura>
                 // <lugarIncoTerm>lugarIncoTerm0</lugarIncoTerm>
@@ -45,7 +63,7 @@ class Invoice extends Document\Contract
                 // <seguroInternacional>50.00</seguroInternacional>
                 // <gastosAduaneros>50.00</gastosAduaneros>
                 // <gastosTransporteOtros>50.00</gastosTransporteOtros>
-                'importeTotal' => $this->total, // preguntar
+                'valorModificacion' => $this->total, // preguntar
                 'moneda' => $this->currency, // hay que preguntar si es un currency code
                 // <placa>placa0</placa>
                 'pagos' => [
@@ -58,17 +76,15 @@ class Invoice extends Document\Contract
                 'detalle' => $this->items
             ],
             'retenciones' => $this->witholdings,
-            'infoAdicional' => $this->extraInfo,
         ];
     }
-
     protected function getName(): string
     {
-        return 'factura';
+        return 'notaCredito';
     }
 
     protected function getType(): string
     {
-        return '01';
+        return '04';
     }
 }

@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Veronica\Http;
+namespace Veronica\Transport;
 
 use ArrayObject;
 use Throwable;
-use Veronica\Http\Exception\RequestException;
+use Veronica\Document\Contract  as Document;
+use Veronica\Transport\Exception\RequestException;
 use const Veronica\ENV_TEST;
 use function Veronica\arr_obj;
 
-abstract class Request
+class Request
 {
     private Client $client;
 
@@ -56,6 +57,13 @@ abstract class Request
                 'cancel' => $this->toISO($res['fechaAnulacion'])
             ],
             'message' => $res['mensajesSri']
+        ]);
+    }
+
+    public function send(Document $doc)
+    {
+        return $this->request(POST, 'comprobantes', [
+            'xml' => (string) trim($doc->pretty()) . "\r\n"
         ]);
     }
 

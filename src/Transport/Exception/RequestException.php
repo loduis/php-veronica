@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Veronica\Http\Exception;
+namespace Veronica\Transport\Exception;
 
 use ArrayObject;
 

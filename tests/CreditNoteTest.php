@@ -2,25 +2,22 @@
 
 namespace Veronica\Tests;
 
-use Veronica\Document;
-use Veronica\Invoice;
+use Veronica\CreditNote;
 
-class DocumentTest extends TestCase
+class CreditNoteTest extends TestCase
 {
-    public function _testExample1()
+    public function testExample1()
     {
-        $doc = Document::fromArray([
-            'type' => '01',
+        $doc = CreditNote::fromArray([
             'environment' => 1,
             'currency' => 'DOLAR',
             'date' => '21/10/2012',
-            'prefix' => '001001', // es la serie
+            'prefix' => '001002', // es la serie
             'number' => '000000001',
-            'reference' => '001-001-000000001',
             'net' => 295000,
             'discount' => 5005,
             'total' => 347159.4,
-            'id' => 41261533,
+            'software_code' => 41261533,
             // 'withholding_agent' => false,
             'supplier' => [
                 'name' => 'Distribuidora de Suministros Nacional S.A.',
@@ -104,86 +101,6 @@ class DocumentTest extends TestCase
                     'due_days' => 30,
                 ],
             ],
-
         ]);
-        $this->assertMatchesJsonSnapshot($doc->toJson());
-    }
-
-    public function testExample2()
-    {
-        $doc = Invoice::fromArray([
-            'environment' => 1,
-            'currency' => 'DOLAR',
-            'date' => '23/03/2021',
-            'prefix' => '001-002', // es la serie
-            'number' => '000000020',
-            'net' => '600.00',
-            'discount' => '0.00',
-            'total' => '600.00',
-            'id' => 41530761,
-            // 'withholding_agent' => false,
-            'supplier' => [
-                'name' => 'Francisco Israel Teneda Gallardo',
-                'tradename' => 'israteneda',
-                'identification' => [
-                    'number' => '0503501215001'
-                ],
-                'address' => [
-                    'main' => 'Rio Tigre y Rio Ana Tenorio, Salcedo, Cotopaxi',
-                ],
-            ],
-            'customer' => [
-                'name' => 'ioet Inc.',
-                'identification' => [
-                    'type' => '08',
-                    'number' => '47-10803393',
-                ],
-                'address' => [
-                    'main' => '1491 Cypress Drive. Suite #853. Pebble Beach, California 93953'
-                ],
-                'email' => 'loduis@myabakus.com',
-                'phone' => '31678969',
-            ],
-            'items' => [
-                [
-                    'code' => '831429900',
-                    'description' => 'Otros Servicios de Diseño y Desarrollo de la Tecnología de la Información (IT) Para Redes y Sistemas, N.C.P. (831429900)',
-                    'qty' => 1,
-                    'price' => '600.00',
-                    'net_price' => '600.00',
-                    'discount' => '0.00',
-                    'taxes' => [
-                        [
-                            'code' => 2, // IVA
-                            'rate_code' => 0,
-                            'discount' => '0.00',
-                            'base' => '600.00',
-                            'rate' => 0,
-                            'amount' => '0.00',
-                        ],
-                    ],
-                ],
-            ],
-            'taxes' => [
-                [
-                    'code' => 2, // IVA
-                    'rate_code' => 0,
-                    'discount' => '0.00',
-                    'base' => '600.00',
-                    'rate' => 0,
-                    'amount' => '0.00',
-                ],
-            ],
-            'payments' => [
-                [
-                    'method' => '20',
-                    'amount' => '600.00',
-                    'due_days' => 0,
-                ],
-            ],
-            'comments' => 'Esto es una factura de prueba.'
-        ]);
-        $this->assertMatchesXmlSnapshot($doc->pretty());
-        // $this->assertMatchesXmlSnapshot($doc->toJson());
     }
 }

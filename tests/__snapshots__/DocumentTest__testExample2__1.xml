@@ -67,4 +67,9 @@
       </impuestos>
     </detalle>
   </detalles>
+  <infoAdicional>
+    <campoAdicional name="Telefono">31678969</campoAdicional>
+    <campoAdicional nombre="Email">loduis@myabakus.com</campoAdicional>
+    <campoAdicional nombre="Observaciones">Esto es una factura de prueba.</campoAdicional>
+  </infoAdicional>
 </factura>

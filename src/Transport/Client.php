@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Veronica\Http;
+namespace Veronica\Transport;
 
-use Veronica\Http\Exception\RequestException;
+use Veronica\Transport\Exception\RequestException;
 use const Veronica\{
     ENV_PRO
 };
@@ -71,12 +71,19 @@ class Client
         ];
         if ($method == POST) {
             if ($this->token) {
-                $headers[] =  'Content-Type: application/json';
-                $request = json_encode($params);
+                if (($params['xml'] ?? false)) {
+                    $headers[] =  'Content-Type: application/atom+xml';
+                    $request = $params['xml'];
+                } else {
+                    $headers[] =  'Content-Type: application/json';
+                    $request = json_encode($params);
+                }
             } else {
                 $request = http_build_query($params);
             }
-            $headers[] = 'Content-length: ' . mb_strlen($request);
+            echo $request;
+            $headers[] = 'Content-length: ' . (mb_strlen($request) + 2);
+            print_r($headers);
             $options[CURLOPT_POSTFIELDS] = $request;
         } elseif ($params) {
             $path .= '?' . http_build_query($params);
@@ -95,6 +102,7 @@ class Client
                 'error' => 'request'
             ]);
         }
+        echo $response;
         $result = json_decode($response, true);
         if (($result['success'] ?? null) === false) {
             $result = $result['result'];

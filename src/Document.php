@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Veronica;
 
-use ArrayObject;
 use XML\Support\Element;
 use XML\Document\Creator;
 use Veronica\Document\Contact;
@@ -53,14 +52,15 @@ class Document extends \XML\Document
                 'ptoEmi' => $this->location->issue,
                 'secuencial' => $this->number,
                 'dirMatriz' => $this->supplier->address->main,
-                // 'regimenMicroempresas' => ''
-                'agenteRetencion' => $this->withholding_agent,
+                'regimenMicroempresas' => $this->supplier->regimenMicroempresas ?
+                    'CONTRIBUYENTE RÉGIMEN MICROEMPRESAS' : null,
+                'agenteRetencion' => $this->supplier->withholdingAgent,
             ]),
             'infoFactura' => $this->filter([
                 'fechaEmision' => $this->date,
                 'dirEstablecimiento' => $this->supplier->address->location,
                 // 'contribuyenteEspecial' => '',
-                'obligadoContabilidad' => $this->required_accounting ? 'SI' : 'NO',
+                'obligadoContabilidad' => $this->supplier->requiredAccounting ? 'SI' : 'NO',
                 // <comercioExterior>EXPORTADOR</comercioExterior>
                 // <incoTermFactura>A</incoTermFactura>
                 // <lugarIncoTerm>lugarIncoTerm0</lugarIncoTerm>
@@ -107,7 +107,7 @@ class Document extends \XML\Document
         ]);
     }
 
-    protected function  getWitholdings(?iteable $taxes)
+    protected function  getWitholdings(?iterable $taxes)
     {
         return $this->prepareTaxes($taxes);
     }
