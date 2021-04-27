@@ -21,10 +21,7 @@ abstract class Contract extends \XML\Document
         'prefix' => 'string',
         'number' => 'string',
         'net' => 'float',
-        'discount' => 'float',
-        'tip' => 'float',
         'total' => 'float',
-        'reference' => 'string',
         'id' => 'string',
         'currency' => 'string',
         'customer' => Contact::class,
@@ -32,9 +29,6 @@ abstract class Contract extends \XML\Document
         'location' => Element::class,
         'items' => 'array',
         'taxes' => 'array',
-        'payments' => 'array',
-        'withholding' => Element::class,
-        'withholdings' => 'array',
         'comments' => 'string',
     ];
 
@@ -64,16 +58,25 @@ abstract class Contract extends \XML\Document
 
     protected function getTaxes(iterable $taxes)
     {
-        return $this->prepareTaxes($taxes);
+        return [
+            'totalImpuesto' => $this->prepareTaxes($taxes)
+        ];
     }
 
     protected function getExtraInfo(): array
     {
         return [
-            new Single($this->customer->phone, ['nombre' => 'Telefono']),
-            new Single($this->customer->email, ['nombre' => 'Email']),
-            new Single($this->comments, ['nombre' => 'Observaciones' ])
+            'campoAdicional' => [
+                new Single($this->customer->phone, ['nombre' => 'Telefono']),
+                new Single($this->customer->email, ['nombre' => 'Email']),
+                new Single($this->comments, ['nombre' => 'Observaciones' ])
+            ]
         ];
+    }
+
+    protected function getRequiredAccounting()
+    {
+        return  $this->supplier->requiredAccounting ? 'SI' : 'NO';
     }
 
     protected function prepareTaxes(?iterable $taxes): iterable
@@ -114,7 +117,9 @@ abstract class Contract extends \XML\Document
             ];
         }
 
-        return $data;
+        return [
+            'detalle' => $data
+        ];
     }
 
     protected function getPayments(?iterable $payments): array
@@ -130,7 +135,9 @@ abstract class Contract extends \XML\Document
             ];
         }
 
-        return $data;
+        return [
+            'pago' => $data
+        ];
     }
 
     protected function getKey(): string

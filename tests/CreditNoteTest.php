@@ -6,7 +6,7 @@ use Veronica\CreditNote;
 
 class CreditNoteTest extends TestCase
 {
-    public function testExample1()
+    public function _testExample1()
     {
         $doc = CreditNote::fromArray([
             'environment' => 1,
@@ -17,8 +17,7 @@ class CreditNoteTest extends TestCase
             'net' => 295000,
             'discount' => 5005,
             'total' => 347159.4,
-            'software_code' => 41261533,
-            // 'withholding_agent' => false,
+            'id' => 41261533,
             'supplier' => [
                 'name' => 'Distribuidora de Suministros Nacional S.A.',
                 'tradename' => 'Empresa Importadora y Exportadora de Piezas',
@@ -102,5 +101,77 @@ class CreditNoteTest extends TestCase
                 ],
             ],
         ]);
+        $this->assertMatchesXmlSnapshot($doc->pretty());
+    }
+
+    public function testExample2()
+    {
+        $doc = CreditNote::fromArray([
+            'environment' => 1,
+            'currency' => 'DOLAR',
+            'date' => '23/04/2021',
+            'prefix' => '001-003',
+            'number' => '000002129',
+            'net' => 8.28,
+            'total' => 8.28,
+            'id' => 1,
+            'supplier' => [
+                'name' => 'EMPRESA PRUEBA CIA LTDA',
+                'tradename' => 'EMPRESA PRUEBA CIA LTDA',
+                'identification' => [
+                    'number' => '1061101991201'
+                ],
+                'address' => [
+                    'main' => '13 de Abril e Ibarra - Huertos Familiares Azaya',
+                ],
+                'required_accounting' => true,
+                'special_taxpayer' => '393'
+            ],
+            'customer' => [
+                'name' => 'QUILUMBANGO PERUGACHI HERMINIA INES',
+                'identification' => [
+                    'type' => '05',
+                    'number' => '1003590344',
+                ],
+                'address' => [
+                    'main' => 'salinas y santiago'
+                ],
+            ],
+            'reference' => [
+                'type' => '01',
+                'date' => '20/04/2021',
+                'id' => '001-001-000230142'
+            ],
+            'reason' => 'MAL SACADO',
+            'items' => [
+                [
+                    'code' => '50470',
+                    'description' => 'ALCOHOL ANTISEPT FARMANOVA SPRAY 250 ML',
+                    'qty' => 1,
+                    'price' => '1.38',
+                    'net_price' => '8.28',
+                    'discount' => '0.00',
+                    'taxes' => [
+                        [
+                            'code' => 2, // IVA
+                            'rate_code' => 0,
+                            'base' => '8.28',
+                            'rate' => 0,
+                            'amount' => '0.00',
+                        ],
+                    ],
+                ],
+            ],
+            'taxes' => [
+                [
+                    'code' => 2, // IVA
+                    'rate_code' => 0,
+                    'base' => '8.28',
+                    'rate' => 0,
+                    'amount' => '0.00',
+                ],
+            ],
+        ]);
+        $this->assertMatchesXmlSnapshot($doc->pretty());
     }
 }
