@@ -62,8 +62,8 @@ class Invoice extends Document\Contract
                 'codigo' => $tax->code,
                 'codigoPorcentaje' => $tax->rate_code,
                 'descuentoAdicional' => $tax->discount,
-                'baseImponible' => $tax->base,
                 'tarifa' => $tax->rate,
+                'baseImponible' => $tax->base,
                 'valor' => $tax->amount,
                 'valorDevolucionIva' => $tax->return,
             ];
@@ -76,8 +76,8 @@ class Invoice extends Document\Contract
             return [
                 'codigo' => $tax->code,
                 'codigoPorcentaje' => $tax->rate_code,
-                'baseImponible' => $tax->base,
                 'tarifa' => $tax->rate,
+                'baseImponible' => $tax->base,
                 'valor' => $tax->amount,
             ];
         });
@@ -99,7 +99,16 @@ class Invoice extends Document\Contract
 
     protected function  getWitholdings(?iterable $taxes)
     {
-        return $this->mapTaxes($taxes ?? []);
+        return [
+            'retencion' => $this->map($taxes ?? [], function ($tax) {
+                return [
+                    'codigo' => $tax->code,
+                    'codigoPorcentaje' => $tax->rate_code,
+                    'tarifa' => $tax->rate,
+                    'valor' => $tax->amount,
+                ];
+            })
+        ];
     }
 
     protected function getName(): string

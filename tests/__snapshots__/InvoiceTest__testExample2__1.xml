@@ -29,8 +29,8 @@
         <codigo>2</codigo>
         <codigoPorcentaje>2</codigoPorcentaje>
         <descuentoAdicional>0.00</descuentoAdicional>
-        <baseImponible>53150.00</baseImponible>
         <tarifa>12</tarifa>
+        <baseImponible>53150.00</baseImponible>
         <valor>6378.00</valor>
       </totalImpuesto>
     </totalConImpuestos>
@@ -58,9 +58,8 @@
         <impuesto>
           <codigo>2</codigo>
           <codigoPorcentaje>2</codigoPorcentaje>
-          <descuentoAdicional>0.00</descuentoAdicional>
-          <baseImponible>53150.00</baseImponible>
           <tarifa>12</tarifa>
+          <baseImponible>53150.00</baseImponible>
           <valor>6378.00</valor>
         </impuesto>
       </impuestos>
