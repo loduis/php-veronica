@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Veronica;
 
 use XML\Support\Element;
+use XML\Support\Single;
 
 class CreditNote extends Document\Contract
 {
@@ -24,22 +25,34 @@ class CreditNote extends Document\Contract
             'infoNotaCredito' => [
                 'fechaEmision' => $this->date,
                 'dirEstablecimiento' => $this->supplier->address->location,
+                'tipoIdentificacionComprador' => $this->customer->identification->type,
+                'razonSocialComprador' => $this->customer->name,
+                'identificacionComprador' => $this->customer->identification->number,
                 'contribuyenteEspecial' => $this->supplier->specialTaxpayer,
                 'obligadoContabilidad' => $this->requiredAccounting,
                 'codDocModificado' => $this->reference->type,
                 'numDocModificado' => $this->reference->id,
                 'fechaEmisionDocSustento' => $this->reference->date,
-                'tipoIdentificacionComprador' => $this->customer->identification->type,
-                'razonSocialComprador' => $this->customer->name,
-                'identificacionComprador' => $this->customer->identification->number,
                 'totalSinImpuestos' => $this->net,
-                'totalConImpuestos' => $this->taxes,
                 'valorModificacion' => $this->total, // preguntar
                 'moneda' => $this->currency, // hay que preguntar si es un currency code
+                'totalConImpuestos' => $this->taxes,
                 'motivo' => $this->reason
             ],
             'detalles' => $this->items,
             'infoAdicional' => $this->extraInfo,
+        ];
+    }
+
+    protected function getExtraInfo(): array
+    {
+        return [
+            'campoAdicional' => [
+                new Single($this->customer->phone, ['nombre' => 'Telefono']),
+                new Single($this->customer->email, ['nombre' => 'Email']),
+                new Single($this->customer->address->main, ['nombre' => 'Direccion']),
+                new Single($this->comments, ['nombre' => 'Observaciones' ])
+            ]
         ];
     }
 

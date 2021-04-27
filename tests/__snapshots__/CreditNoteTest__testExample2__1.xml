@@ -16,15 +16,17 @@
   <infoNotaCredito>
     <fechaEmision>23/04/2021</fechaEmision>
     <dirEstablecimiento>13 de Abril e Ibarra - Huertos Familiares Azaya</dirEstablecimiento>
+    <tipoIdentificacionComprador>05</tipoIdentificacionComprador>
+    <razonSocialComprador>QUILUMBANGO PERUGACHI HERMINIA INES</razonSocialComprador>
+    <identificacionComprador>1003590344</identificacionComprador>
     <contribuyenteEspecial>393</contribuyenteEspecial>
     <obligadoContabilidad>SI</obligadoContabilidad>
     <codDocModificado>01</codDocModificado>
     <numDocModificado>001-001-000230142</numDocModificado>
     <fechaEmisionDocSustento>20/04/2021</fechaEmisionDocSustento>
-    <tipoIdentificacionComprador>05</tipoIdentificacionComprador>
-    <razonSocialComprador>QUILUMBANGO PERUGACHI HERMINIA INES</razonSocialComprador>
-    <identificacionComprador>1003590344</identificacionComprador>
     <totalSinImpuestos>8.28</totalSinImpuestos>
+    <valorModificacion>8.28</valorModificacion>
+    <moneda>DOLAR</moneda>
     <totalConImpuestos>
       <totalImpuesto>
         <codigo>2</codigo>
@@ -33,15 +35,13 @@
         <valor>0.00</valor>
       </totalImpuesto>
     </totalConImpuestos>
-    <valorModificacion>8.28</valorModificacion>
-    <moneda>DOLAR</moneda>
     <motivo>MAL SACADO</motivo>
   </infoNotaCredito>
   <detalles>
     <detalle>
       <codigoInterno>50470</codigoInterno>
       <descripcion>ALCOHOL ANTISEPT FARMANOVA SPRAY 250 ML</descripcion>
-      <cantidad>1</cantidad>
+      <cantidad>6</cantidad>
       <precioUnitario>1.38</precioUnitario>
       <descuento>0.00</descuento>
       <precioTotalSinImpuesto>8.28</precioTotalSinImpuesto>
@@ -56,4 +56,9 @@
       </impuestos>
     </detalle>
   </detalles>
+  <infoAdicional>
+    <campoAdicional nombre="Telefono">042322000</campoAdicional>
+    <campoAdicional nombre="Email">rolando.roc@gmail.com</campoAdicional>
+    <campoAdicional nombre="Direccion">salinas y santiago</campoAdicional>
+  </infoAdicional>
 </notaCredito>

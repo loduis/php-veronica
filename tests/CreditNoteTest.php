@@ -136,6 +136,8 @@ class CreditNoteTest extends TestCase
                 'address' => [
                     'main' => 'salinas y santiago'
                 ],
+                'email' => 'rolando.roc@gmail.com',
+                'phone' => '042322000',
             ],
             'reference' => [
                 'type' => '01',
@@ -147,7 +149,7 @@ class CreditNoteTest extends TestCase
                 [
                     'code' => '50470',
                     'description' => 'ALCOHOL ANTISEPT FARMANOVA SPRAY 250 ML',
-                    'qty' => 1,
+                    'qty' => 6,
                     'price' => '1.38',
                     'net' => '8.28',
                     'discount' => '0.00',

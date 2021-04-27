@@ -7,8 +7,6 @@ namespace Veronica\Document;
 use XML\Support\Element;
 use XML\Document\Creator;
 use Veronica\Document\Contact;
-use XML\Support\Single;
-
 use const Veronica\TYPE_EMISSION;
 
 abstract class Contract extends \XML\Document
@@ -55,17 +53,6 @@ abstract class Contract extends \XML\Document
     {
         return [
             'totalImpuesto' => $this->mapTaxes($taxes)
-        ];
-    }
-
-    protected function getExtraInfo(): array
-    {
-        return [
-            'campoAdicional' => [
-                new Single($this->customer->phone, ['nombre' => 'Telefono']),
-                new Single($this->customer->email, ['nombre' => 'Email']),
-                new Single($this->comments, ['nombre' => 'Observaciones' ])
-            ]
         ];
     }
 

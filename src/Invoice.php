@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Veronica;
 
 use XML\Support\Element;
+use XML\Support\Single;
 
 class Invoice extends Document\Contract
 {
@@ -47,6 +48,17 @@ class Invoice extends Document\Contract
             'detalles' => $this->items,
             'retenciones' => $this->witholdings,
             'infoAdicional' => $this->extraInfo,
+        ];
+    }
+
+    protected function getExtraInfo(): array
+    {
+        return [
+            'campoAdicional' => [
+                new Single($this->customer->phone, ['nombre' => 'Telefono']),
+                new Single($this->customer->email, ['nombre' => 'Email']),
+                new Single($this->comments, ['nombre' => 'Observaciones' ])
+            ]
         ];
     }
 
