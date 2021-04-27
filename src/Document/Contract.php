@@ -51,15 +51,10 @@ abstract class Contract extends \XML\Document
         ];
     }
 
-    protected function  getWitholdings(?iterable $taxes)
-    {
-        return $this->prepareTaxes($taxes);
-    }
-
     protected function getTaxes(iterable $taxes)
     {
         return [
-            'totalImpuesto' => $this->prepareTaxes($taxes)
+            'totalImpuesto' => $this->mapTaxes($taxes)
         ];
     }
 
@@ -74,70 +69,40 @@ abstract class Contract extends \XML\Document
         ];
     }
 
+    protected function mapItems(string $codeName, iterable $items): array
+    {
+        return [
+            'detalle' => $this->map($items, function ($item) use ($codeName) {
+                return [
+                    $codeName => $item->code,
+                    'descripcion' => $item->description,
+                    'unidadMedida' => $item->unit ?? null,
+                    'cantidad' => $item->qty,
+                    'precioUnitario' => $item->price,
+                    'descuento' => $item->discount,
+                    'precioTotalSinImpuesto' => $item->net,
+                    'impuestos' => [
+                        'impuesto' => $this->mapLineTaxes($item->taxes)
+                    ],
+                ];
+            })
+        ];
+    }
+
     protected function getRequiredAccounting()
     {
         return  $this->supplier->requiredAccounting ? 'SI' : 'NO';
     }
 
-    protected function prepareTaxes(?iterable $taxes): iterable
+    protected function map(iterable $entries, \Closure $callback)
     {
         $data = [];
-        foreach ($taxes ?? [] as $tax) {
-            $tax = Element::fromArray($tax);
-            $data[] = [
-                'codigo' => $tax->code,
-                'codigoPorcentaje' => $tax->rate_code,
-                'descuentoAdicional' => $tax->discount,
-                'baseImponible' => $tax->base,
-                'tarifa' => $tax->rate,
-                'valor' => $tax->amount,
-                'valorDevolucionIva' => $tax->return,
-            ];
+        foreach ($entries as $entry) {
+            $entry = Element::fromArray($entry);
+            $data[] = $callback($entry);
         }
 
         return $data;
-    }
-
-    protected function getItems(iterable $items): array
-    {
-        $data = [];
-        foreach ($items as $item) {
-            $item = Element::fromArray($item);
-            $data[] = [
-                'codigoPrincipal' => $item->code,
-                'descripcion' => $item->description,
-                'unidadMedida' => $item->unit ?? null,
-                'cantidad' => $item->qty,
-                'precioUnitario' => $item->price,
-                'descuento' => $item->discount,
-                'precioTotalSinImpuesto' => $item->net_price,
-                'impuestos' => [
-                    'impuesto' => $this->prepareTaxes($item->taxes)
-                ],
-            ];
-        }
-
-        return [
-            'detalle' => $data
-        ];
-    }
-
-    protected function getPayments(?iterable $payments): array
-    {
-        $data = [];
-        foreach ($payments ?? [] as $payment) {
-            $payment = Element::fromArray($payment);
-            $data[] = [
-                'formaPago' => $payment->method,
-                'total' => $payment->amount,
-                'plazo' => $payment->due_days,
-                'unidadTiempo' => $payment->due_days !== null ? 'dias' : null,
-            ];
-        }
-
-        return [
-            'pago' => $data
-        ];
     }
 
     protected function getKey(): string
@@ -169,7 +134,6 @@ abstract class Contract extends \XML\Document
         return $key . $result;
     }
 
-
     protected function creator(): Creator
     {
         return new Creator($this, [
@@ -196,5 +160,8 @@ abstract class Contract extends \XML\Document
     {
         return str_replace('/', '', $this->date);
     }
-}
 
+    abstract protected function mapLineTaxes(iterable $taxes): array;
+
+    abstract protected function mapTaxes(iterable $taxes): array;
+}

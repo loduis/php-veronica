@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Veronica;
 
+use XML\Support\Element;
+
 class Invoice extends Document\Contract
 {
     public function __construct(array $data = [])
@@ -46,6 +48,58 @@ class Invoice extends Document\Contract
             'retenciones' => $this->witholdings,
             'infoAdicional' => $this->extraInfo,
         ];
+    }
+
+    protected function getItems(iterable $items): array
+    {
+        return $this->mapItems('codigoPrincipal', $items);
+    }
+
+    protected function mapTaxes(?iterable $taxes): array
+    {
+        return $this->map($taxes, function ($tax) {
+            return [
+                'codigo' => $tax->code,
+                'codigoPorcentaje' => $tax->rate_code,
+                'descuentoAdicional' => $tax->discount,
+                'baseImponible' => $tax->base,
+                'tarifa' => $tax->rate,
+                'valor' => $tax->amount,
+                'valorDevolucionIva' => $tax->return,
+            ];
+        });
+    }
+
+    protected function mapLineTaxes(iterable $taxes): array
+    {
+        return $this->map($taxes, function ($tax) {
+            return [
+                'codigo' => $tax->code,
+                'codigoPorcentaje' => $tax->rate_code,
+                'baseImponible' => $tax->base,
+                'tarifa' => $tax->rate,
+                'valor' => $tax->amount,
+            ];
+        });
+    }
+
+    protected function getPayments(?iterable $payments): array
+    {
+        return [
+            'pago' => $this->map($payments ?? [], function (iterable $payment) {
+                return [
+                    'formaPago' => $payment->method,
+                    'total' => $payment->amount,
+                    'plazo' => $payment->due_days,
+                    'unidadTiempo' => $payment->due_days !== null ? 'dias' : null,
+                ];
+            })
+        ];
+    }
+
+    protected function  getWitholdings(?iterable $taxes)
+    {
+        return $this->mapTaxes($taxes ?? []);
     }
 
     protected function getName(): string

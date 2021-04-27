@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Veronica;
 
+use XML\Support\Element;
+
 class CreditNote extends Document\Contract
 {
 
@@ -40,6 +42,12 @@ class CreditNote extends Document\Contract
             'infoAdicional' => $this->extraInfo,
         ];
     }
+
+    protected function getItems(iterable $items): array
+    {
+        return $this->createLines('codigoInterno', $items);
+    }
+
     protected function getName(): string
     {
         return 'notaCredito';

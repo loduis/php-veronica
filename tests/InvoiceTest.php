@@ -48,13 +48,12 @@ class InvoiceTest extends TestCase
                     'description' => 'Otros Servicios de Diseño y Desarrollo de la Tecnología de la Información (IT) Para Redes y Sistemas, N.C.P. (831429900)',
                     'qty' => 1,
                     'price' => '600.00',
-                    'net_price' => '600.00',
+                    'net' => '600.00',
                     'discount' => '0.00',
                     'taxes' => [
                         [
                             'code' => 2, // IVA
                             'rate_code' => 0,
-                            'discount' => '0.00',
                             'base' => '600.00',
                             'rate' => 0,
                             'amount' => '0.00',
@@ -128,13 +127,12 @@ class InvoiceTest extends TestCase
                     'description' => 'HONORARIOS POR ADMINISTRACION, DIRECCION Y RESPONSABILIDAD TECNICA CUOTA 11 DEL 01 AL 28 MARZO DE 2021 PROYECTO RIOCENTRO QUITO',
                     'qty' => 1,
                     'price' => '53150.00',
-                    'net_price' => '53150.00',
+                    'net' => '53150.00',
                     'discount' => '0.00',
                     'taxes' => [
                         [
                             'code' => 2, // IVA
                             'rate_code' => 2,
-                            'discount' => '0.00',
                             'base' => '53150.00',
                             'rate' => 12,
                             'amount' => '6378.00',

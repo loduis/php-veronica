@@ -149,7 +149,7 @@ class CreditNoteTest extends TestCase
                     'description' => 'ALCOHOL ANTISEPT FARMANOVA SPRAY 250 ML',
                     'qty' => 1,
                     'price' => '1.38',
-                    'net_price' => '8.28',
+                    'net' => '8.28',
                     'discount' => '0.00',
                     'taxes' => [
                         [
