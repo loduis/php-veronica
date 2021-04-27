@@ -89,6 +89,19 @@ abstract class Contract extends \XML\Document
         ];
     }
 
+    protected function mapLineTaxes(iterable $taxes): array
+    {
+        return $this->map($taxes, function ($tax) {
+            return [
+                'codigo' => $tax->code,
+                'codigoPorcentaje' => $tax->rate_code,
+                'tarifa' => $tax->rate,
+                'baseImponible' => $tax->base,
+                'valor' => $tax->amount,
+            ];
+        });
+    }
+
     protected function getRequiredAccounting()
     {
         return  $this->supplier->requiredAccounting ? 'SI' : 'NO';
@@ -160,8 +173,6 @@ abstract class Contract extends \XML\Document
     {
         return str_replace('/', '', $this->date);
     }
-
-    abstract protected function mapLineTaxes(iterable $taxes): array;
 
     abstract protected function mapTaxes(iterable $taxes): array;
 }

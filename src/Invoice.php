@@ -55,7 +55,7 @@ class Invoice extends Document\Contract
         return $this->mapItems('codigoPrincipal', $items);
     }
 
-    protected function mapTaxes(?iterable $taxes): array
+    protected function mapTaxes(iterable $taxes): array
     {
         return $this->map($taxes, function ($tax) {
             return [

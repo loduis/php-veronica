@@ -45,7 +45,20 @@ class CreditNote extends Document\Contract
 
     protected function getItems(iterable $items): array
     {
-        return $this->createLines('codigoInterno', $items);
+        return $this->mapItems('codigoInterno', $items);
+    }
+
+    protected function mapTaxes(iterable $taxes): array
+    {
+        return $this->map($taxes, function ($tax) {
+            return [
+                'codigo' => $tax->code,
+                'codigoPorcentaje' => $tax->rate_code,
+                'baseImponible' => $tax->base,
+                'valor' => $tax->amount,
+                'valorDevolucionIva' => $tax->return,
+            ];
+        });
     }
 
     protected function getName(): string
