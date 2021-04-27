@@ -1,9 +1,9 @@
-
 <?php
 
 namespace Veronica\Tests;
 
 use Veronica\Invoice;
+use Veronica\CreditNote;
 use Veronica\Transport\Request;
 
 class RequestTest extends TestCase
@@ -107,7 +107,7 @@ class RequestTest extends TestCase
         // echo json_encode($data, JSON_PRETTY_PRINT);
     }
 
-    public function test2()
+    public function _test2()
     {
 
         $invoice = Invoice::fromArray([
@@ -203,6 +203,99 @@ class RequestTest extends TestCase
         $token = $request->getToken();
         echo json_encode($token, JSON_PRETTY_PRINT);
         $response = $request->send($invoice);
+        print_r($response);
+    }
+
+    public function test3()
+    {
+        $doc = CreditNote::fromArray([
+            'environment' => 1,
+            'currency' => 'DOLAR',
+            'date' => '23/04/2021',
+            'prefix' => '001-003',
+            'number' => '000002129',
+            'net' => 8.28,
+            'total' => 8.28,
+            'id' => '00003570',
+            'supplier' => [
+                'name' => 'EMPRESA PRUEBA CIA LTDA',
+                'tradename' => 'EMPRESA PRUEBA CIA LTDA',
+                'identification' => [
+                    'number' => '0503501215001'
+                ],
+                'address' => [
+                    'main' => '13 de Abril e Ibarra - Huertos Familiares Azaya',
+                ],
+                'required_accounting' => true,
+                'special_taxpayer' => '393'
+            ],
+            'customer' => [
+                'name' => 'QUILUMBANGO PERUGACHI HERMINIA INES',
+                'identification' => [
+                    'type' => '05',
+                    'number' => '1003590344',
+                ],
+                'address' => [
+                    'main' => 'salinas y santiago'
+                ],
+                'email' => 'rolando.roc@gmail.com',
+                'phone' => '042322000',
+            ],
+            'reference' => [
+                'type' => '01',
+                'date' => '20/04/2021',
+                'id' => '001-001-000230142'
+            ],
+            'reason' => 'MAL SACADO',
+            'items' => [
+                [
+                    'code' => '50470',
+                    'description' => 'ALCOHOL ANTISEPT FARMANOVA SPRAY 250 ML',
+                    'qty' => 6,
+                    'price' => '1.38',
+                    'net' => '8.28',
+                    'discount' => '0.00',
+                    'taxes' => [
+                        [
+                            'code' => 2, // IVA
+                            'rate_code' => 0,
+                            'base' => '8.28',
+                            'rate' => 0,
+                            'amount' => '0.00',
+                        ],
+                    ],
+                ],
+            ],
+            'taxes' => [
+                [
+                    'code' => 2, // IVA
+                    'rate_code' => 0,
+                    'base' => '8.28',
+                    'rate' => 0,
+                    'amount' => '0.00',
+                ],
+            ],
+        ]);
+
+        $username = $_ENV['API_USER'];
+        $password = $_ENV['API_PASSWORD'];
+        $clientId = $_ENV['API_CLIENT_ID'];
+        $clientSecret = $_ENV['API_CLIENT_SECRET'];
+
+        $request = new Request($username, $password, $clientId, $clientSecret);
+        $token = json_decode('{
+            "access_token": "f8aab05f-fd0b-400e-a32b-9f0e0bd6a010",
+            "token_type": "bearer",
+            "refresh_token": "403381b0-b05c-460c-b1a1-c78c0ccc3cf5",
+            "expires_in": 16514,
+            "scope": "read write",
+            "time": 1619213507
+        }', true);
+        $token  = null;
+        $request->setToken($token);
+        $token = $request->getToken();
+        echo $doc->key, PHP_EOL;
+        $response = $request->send($doc);
         print_r($response);
     }
 }

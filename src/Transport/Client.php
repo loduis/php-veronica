@@ -81,9 +81,7 @@ class Client
             } else {
                 $request = http_build_query($params);
             }
-            echo $request;
             $headers[] = 'Content-length: ' . mb_strlen($request);
-            print_r($headers);
             $options[CURLOPT_POSTFIELDS] = $request;
         } elseif ($params) {
             $path .= '?' . http_build_query($params);
@@ -93,7 +91,6 @@ class Client
         }
         $options[CURLOPT_HTTPHEADER] = $headers;
         $options[CURLOPT_URL] = $this->baseApi . $path;
-        print_r($options);
         curl_setopt_array($this->handle, $options);
         $response = curl_exec($this->handle);
         curl_reset($this->handle);
@@ -103,7 +100,6 @@ class Client
                 'error' => 'request'
             ]);
         }
-        echo $response;
         $result = json_decode($response, true);
         if (($result['success'] ?? null) === false) {
             $result = $result['result'];
