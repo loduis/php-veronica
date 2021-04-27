@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<factura id="comprobante" version="1.1.0">
+  <infoTributaria>
+    <ambiente>1</ambiente>
+    <tipoEmision>1</tipoEmision>
+    <razonSocial>INMOBILIARIA CALDARIO SA</razonSocial>
+    <nombreComercial>INMOBILIARIA CALDARIO SA</nombreComercial>
+    <ruc>1790645231001</ruc>
+    <claveAcceso>21042021011790645231001100100100000357000000357012</claveAcceso>
+    <codDoc>01</codDoc>
+    <estab>001</estab>
+    <ptoEmi>001</ptoEmi>
+    <secuencial>000003570</secuencial>
+    <dirMatriz>AMAZONAS Y PASAJE GUAYAS E3-131 EDF. RUMINAHUI PISO 8</dirMatriz>
+  </infoTributaria>
+  <infoFactura>
+    <fechaEmision>21/04/2021</fechaEmision>
+    <dirEstablecimiento>AMAZONAS Y PASAJE GUAYAS E3-131 EDF. RUMINAHUI PISO 8</dirEstablecimiento>
+    <obligadoContabilidad>SI</obligadoContabilidad>
+    <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
+    <razonSocialComprador>INMOBILIARIA MOTKE S.A.</razonSocialComprador>
+    <identificacionComprador>0990995184001</identificacionComprador>
+    <direccionComprador>AV. 9 DE OCTUBRE 729 Y  BOYACA</direccionComprador>
+    <totalSinImpuestos>53150.00</totalSinImpuestos>
+    <totalDescuento>0.00</totalDescuento>
+    <totalConImpuestos>
+      <totalImpuesto>
+        <codigo>2</codigo>
+        <codigoPorcentaje>2</codigoPorcentaje>
+        <descuentoAdicional>0.00</descuentoAdicional>
+        <baseImponible>53150.00</baseImponible>
+        <tarifa>12</tarifa>
+        <valor>6378.00</valor>
+      </totalImpuesto>
+    </totalConImpuestos>
+    <propina>0.00</propina>
+    <importeTotal>59528.00</importeTotal>
+    <moneda>DOLAR</moneda>
+    <pagos>
+      <pago>
+        <formaPago>20</formaPago>
+        <total>59528.00</total>
+      </pago>
+    </pagos>
+    <valorRetIva>0.00</valorRetIva>
+    <valorRetRenta>0.00</valorRetRenta>
+  </infoFactura>
+  <detalles>
+    <detalle>
+      <codigoPrincipal>HONMOTKE</codigoPrincipal>
+      <descripcion>HONORARIOS POR ADMINISTRACION, DIRECCION Y RESPONSABILIDAD TECNICA CUOTA 11 DEL 01 AL 28 MARZO DE 2021 PROYECTO RIOCENTRO QUITO</descripcion>
+      <cantidad>1</cantidad>
+      <precioUnitario>53150.00</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>53150.00</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <descuentoAdicional>0.00</descuentoAdicional>
+          <baseImponible>53150.00</baseImponible>
+          <tarifa>12</tarifa>
+          <valor>6378.00</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+  </detalles>
+  <infoAdicional>
+    <campoAdicional nombre="Telefono">042322000</campoAdicional>
+    <campoAdicional nombre="Email">rolando.roc@gmail.com</campoAdicional>
+    <campoAdicional nombre="Observaciones">HONORARIOS POR ADMINISTRACION, DIRECCION Y RESPONSABILIDAD TECNICA CUOTA 11 DEL 01 AL 28 DE MARZO DE 2021 PROYECTO RIOCENTRO QUITO DIRECCION: AV. 6 DE DICIEMBRE N21-245 TOMAS DE BERLANGA, CALLE PINZON</campoAdicional>
+  </infoAdicional>
+</factura>

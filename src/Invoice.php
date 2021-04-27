@@ -58,7 +58,9 @@ class Invoice extends Document\Contract
                 'detalle' => $this->items
             ],
             'retenciones' => $this->witholdings,
-            'infoAdicional' => $this->extraInfo,
+            'infoAdicional' => [
+                'campoAdicional' => $this->extraInfo
+            ],
         ];
     }
 

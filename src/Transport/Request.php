@@ -60,11 +60,11 @@ class Request
         ]);
     }
 
-    public function send(Document $doc)
+    public function send(Document $doc): bool
     {
         return $this->request(POST, 'comprobantes', [
-            'xml' => (string) trim($doc->pretty()) . "\r\n"
-        ]);
+            'xml' => (string) $doc->pretty() . PHP_EOL . PHP_EOL
+        ])['claveAcceso'] === $doc->key;
     }
 
     public function first(): iterable

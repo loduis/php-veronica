@@ -82,7 +82,7 @@ class Client
                 $request = http_build_query($params);
             }
             echo $request;
-            $headers[] = 'Content-length: ' . (mb_strlen($request) + 2);
+            $headers[] = 'Content-length: ' . mb_strlen($request);
             print_r($headers);
             $options[CURLOPT_POSTFIELDS] = $request;
         } elseif ($params) {
@@ -93,6 +93,7 @@ class Client
         }
         $options[CURLOPT_HTTPHEADER] = $headers;
         $options[CURLOPT_URL] = $this->baseApi . $path;
+        print_r($options);
         curl_setopt_array($this->handle, $options);
         $response = curl_exec($this->handle);
         curl_reset($this->handle);

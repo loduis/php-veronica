@@ -1,3 +1,4 @@
+
 <?php
 
 namespace Veronica\Tests;
@@ -5,9 +6,9 @@ namespace Veronica\Tests;
 use Veronica\Invoice;
 use Veronica\Transport\Request;
 
-
-class InvoiceTest extends TestCase
+class RequestTest extends TestCase
 {
+
     public function _testFirst()
     {
         $username = $_ENV['API_USER'];

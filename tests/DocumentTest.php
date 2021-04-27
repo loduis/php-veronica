@@ -186,4 +186,84 @@ class DocumentTest extends TestCase
         $this->assertMatchesXmlSnapshot($doc->pretty());
         // $this->assertMatchesXmlSnapshot($doc->toJson());
     }
+
+    public function testExample3()
+    {
+
+        $doc = Invoice::fromArray([
+            'environment' => 1,
+            'currency' => 'DOLAR',
+            'date' => '21/04/2021',
+            'prefix' => '001-001', // es la serie
+            'number' => '000003570',
+            'net' => '53150.00',
+            'discount' => '0.00',
+            'total' => '59528.00',
+            'id' => '000003570',
+            // 'withholding_agent' => false,
+            'supplier' => [
+                'name' => 'INMOBILIARIA CALDARIO SA',
+                'tradename' => 'INMOBILIARIA CALDARIO SA',
+                'identification' => [
+                    'number' => '1790645231001'
+                ],
+                'address' => [
+                    'main' => 'AMAZONAS Y PASAJE GUAYAS E3-131 EDF. RUMINAHUI PISO 8',
+                ],
+                'required_accounting' => true,
+                'special_taxpayer' => '000'
+            ],
+            'customer' => [
+                'name' => 'INMOBILIARIA MOTKE S.A.',
+                'identification' => [
+                    'type' => '04',
+                    'number' => '0990995184001',
+                ],
+                'address' => [
+                    'main' => 'AV. 9 DE OCTUBRE 729 Y  BOYACA'
+                ],
+                'email' => 'rolando.roc@gmail.com',
+                'phone' => '042322000',
+            ],
+            'items' => [
+                [
+                    'code' => 'HONMOTKE',
+                    'description' => 'HONORARIOS POR ADMINISTRACION, DIRECCION Y RESPONSABILIDAD TECNICA CUOTA 11 DEL 01 AL 28 MARZO DE 2021 PROYECTO RIOCENTRO QUITO',
+                    'qty' => 1,
+                    'price' => '53150.00',
+                    'net_price' => '53150.00',
+                    'discount' => '0.00',
+                    'taxes' => [
+                        [
+                            'code' => 2, // IVA
+                            'rate_code' => 2,
+                            'discount' => '0.00',
+                            'base' => '53150.00',
+                            'rate' => 12,
+                            'amount' => '6378.00',
+                        ],
+                    ],
+                ],
+            ],
+            'taxes' => [
+                [
+                    'code' => 2, // IVA
+                    'rate_code' => 2,
+                    'discount' => '0.00',
+                    'base' => '53150.00',
+                    'rate' => 12,
+                    'amount' => '6378.00',
+                ],
+            ],
+            'payments' => [
+                [
+                    'method' => '20',
+                    'amount' => '59528.00',
+                ],
+            ],
+            'comments' => 'HONORARIOS POR ADMINISTRACION, DIRECCION Y RESPONSABILIDAD TECNICA CUOTA 11 DEL 01 AL 28 DE MARZO DE 2021 PROYECTO RIOCENTRO QUITO DIRECCION: AV. 6 DE DICIEMBRE N21-245 TOMAS DE BERLANGA, CALLE PINZON'
+        ]);
+        $this->assertMatchesXmlSnapshot($doc->pretty());
+        // $this->assertMatchesXmlSnapshot($doc->toJson());
+    }
 }

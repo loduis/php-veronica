@@ -70,11 +70,9 @@ abstract class Contract extends \XML\Document
     protected function getExtraInfo(): array
     {
         return [
-            'campoAdicional' => [
-                new Single($this->customer->phone, ['name' => 'Telefono']),
-                new Single($this->customer->email, ['nombre' => 'Email']),
-                new Single($this->comments, ['nombre' => 'Observaciones' ])
-            ]
+            new Single($this->customer->phone, ['nombre' => 'Telefono']),
+            new Single($this->customer->email, ['nombre' => 'Email']),
+            new Single($this->comments, ['nombre' => 'Observaciones' ])
         ];
     }
 
