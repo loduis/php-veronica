@@ -72,17 +72,19 @@ class Request
         return $this->all(['page' => 0, 'size' => 1])['content'][0] ?? [];
     }
 
-    public function setToken(?iterable $token = null): void
+    public function setToken(?iterable $token = null): iterable
     {
         if (!$token) {
             $this->requestTokenWithPassword();
-            return;
+            return $this->getToken();
         }
         $token = arr_obj($token);
         time() >= ($token['time'] + $token['expires_in']) ? $this->requestToken([
             'grant_type' => 'refresh_token',
             'refresh_token' => $token['refresh_token'],
         ]) : $this->useToken($token);
+
+        return $this->getToken();
     }
 
     public function getToken(): iterable
