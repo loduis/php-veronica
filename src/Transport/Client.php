@@ -110,7 +110,7 @@ class Client
             ]);
         }
         if (isset($result['error'])) {
-            $this->throwError(0, $result['error_description'], $request ?? null, $result);
+            $this->throwError(0, html_entity_decode($result['error_description']), $request ?? null, $result);
         }
 
         return arr_obj($result['result'] ?? $result);
