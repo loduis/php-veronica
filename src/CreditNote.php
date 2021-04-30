@@ -81,6 +81,6 @@ class CreditNote extends Document\Contract
 
     protected function getType(): string
     {
-        return '04';
+        return DOC_CREDIT_NOTE;
     }
 }

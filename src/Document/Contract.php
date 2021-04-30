@@ -8,6 +8,7 @@ use XML\Support\Element;
 use XML\Document\Creator;
 use Veronica\Document\Contact;
 use const Veronica\TYPE_EMISSION;
+use function Veronica\get_key;
 
 abstract class Contract extends \XML\Document
 {

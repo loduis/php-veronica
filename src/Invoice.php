@@ -130,6 +130,6 @@ class Invoice extends Document\Contract
 
     protected function getType(): string
     {
-        return '01';
+        return DOC_INVOICE;
     }
 }
