@@ -104,36 +104,6 @@ abstract class Contract extends \XML\Document
 
         return $data;
     }
-    /*
-    protected function getKey(): string
-    {
-        $key = implode('', [
-            $this->dateNumber, // 1
-            $this->type, // 2
-            $this->supplier->identification->number, // 3
-            $this->environment, // 4
-            $this->prefix, // 5
-            $this->number, // 6
-            $this->id, // 7
-            TYPE_EMISSION, //
-        ]);
-
-        $sum = 0;
-        foreach (str_split(strrev($key)) as $i => $val) {
-            if ($i % 6 === 0) {
-                $factor = 2;
-            }
-            $sum += $val * $factor;
-            $factor ++;
-        }
-        $result = 11 - ($sum % 11);
-        if ($result > 9) {
-            $result = 11 - $result;
-        }
-
-        return $key . $result;
-    }
-    */
 
     protected function creator(): Creator
     {
@@ -156,13 +126,6 @@ abstract class Contract extends \XML\Document
 
         return $main . $issue;
     }
-
-    /*
-    protected function getDateNumber()
-    {
-        return str_replace('/', '', $this->date);
-    }
-    */
 
     abstract protected function mapTaxes(iterable $taxes): array;
 }

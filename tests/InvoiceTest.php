@@ -18,7 +18,6 @@ class InvoiceTest extends TestCase
             'net' => '600.00',
             'discount' => '0.00',
             'total' => '600.00',
-            // 'id' => 41530761,
             'key' => '2303202101050350121500110010020000000204153076118',
             'supplier' => [
                 'name' => 'Francisco Israel Teneda Gallardo',
@@ -95,7 +94,6 @@ class InvoiceTest extends TestCase
             'net' => '53150.00',
             'discount' => '0.00',
             'total' => '59528.00',
-            // 'id' => '000003570',
             'key' => '21042021011790645231001100100100000357000000357012',
             'supplier' => [
                 'name' => 'INMOBILIARIA CALDARIO SA',
