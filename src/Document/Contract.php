@@ -8,7 +8,6 @@ use XML\Support\Element;
 use XML\Document\Creator;
 use Veronica\Document\Contact;
 use const Veronica\TYPE_EMISSION;
-use function Veronica\get_key;
 
 abstract class Contract extends \XML\Document
 {
@@ -21,7 +20,7 @@ abstract class Contract extends \XML\Document
         'number' => 'string',
         'net' => 'float',
         'total' => 'float',
-        'id' => 'string',
+        'key' => 'string',
         'currency' => 'string',
         'customer' => Contact::class,
         'supplier' => Contact::class,
@@ -105,7 +104,7 @@ abstract class Contract extends \XML\Document
 
         return $data;
     }
-
+    /*
     protected function getKey(): string
     {
         $key = implode('', [
@@ -134,6 +133,7 @@ abstract class Contract extends \XML\Document
 
         return $key . $result;
     }
+    */
 
     protected function creator(): Creator
     {
@@ -157,10 +157,12 @@ abstract class Contract extends \XML\Document
         return $main . $issue;
     }
 
+    /*
     protected function getDateNumber()
     {
         return str_replace('/', '', $this->date);
     }
+    */
 
     abstract protected function mapTaxes(iterable $taxes): array;
 }

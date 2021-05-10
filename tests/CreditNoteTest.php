@@ -17,7 +17,8 @@ class CreditNoteTest extends TestCase
             'net' => 295000,
             'discount' => 5005,
             'total' => 347159.4,
-            'id' => 41261533,
+            // 'id' => 41261533,
+            'key' => '230420210410611019912011001003000002129117',
             'supplier' => [
                 'name' => 'Distribuidora de Suministros Nacional S.A.',
                 'tradename' => 'Empresa Importadora y Exportadora de Piezas',
@@ -114,7 +115,8 @@ class CreditNoteTest extends TestCase
             'number' => '000002129',
             'net' => 8.28,
             'total' => 8.28,
-            'id' => 1,
+            'key' => '230420210410611019912011001003000002129117',
+            //'id' => 1,
             'supplier' => [
                 'name' => 'EMPRESA PRUEBA CIA LTDA',
                 'tradename' => 'EMPRESA PRUEBA CIA LTDA',
