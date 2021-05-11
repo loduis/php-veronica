@@ -76,13 +76,13 @@ class Request
     {
         if (!$token) {
             $this->requestTokenWithPassword();
-            return $this->getToken();
+        } else {
+            $token = arr_obj($token);
+            time() >= ($token['time'] + $token['expires_in']) ? $this->requestToken([
+                'grant_type' => 'refresh_token',
+                'refresh_token' => $token['refresh_token'],
+            ]) : $this->useToken($token);
         }
-        $token = arr_obj($token);
-        time() >= ($token['time'] + $token['expires_in']) ? $this->requestToken([
-            'grant_type' => 'refresh_token',
-            'refresh_token' => $token['refresh_token'],
-        ]) : $this->useToken($token);
 
         return $this->getToken();
     }
