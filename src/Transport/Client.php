@@ -110,9 +110,13 @@ class Client
             ]);
         }
         if (isset($result['error'])) {
+            $error = $result['error_description'] ?? $result['message'];
+            if ($path = ($result['path'] ?? false)) {
+                $error .= ' ' . $path;
+            }
             $this->throwError(
                 0,
-                html_entity_decode($result['error_description'] ?? $result['message']),
+                html_entity_decode($error),
                 $request ?? null,
                 $result
             );
