@@ -32,6 +32,7 @@ class Invoice extends Document\Contract
                 'contribuyenteEspecial' => $this->supplier->specialTaxpayer,
                 'obligadoContabilidad' => $this->requiredAccounting,
                 'tipoIdentificacionComprador' => $this->customer->identification->type,
+                'guiaRemision' => $this->reference,
                 'razonSocialComprador' => $this->customer->name,
                 'identificacionComprador' => $this->customer->identification->number,
                 'direccionComprador' => $this->customer->address->main,
