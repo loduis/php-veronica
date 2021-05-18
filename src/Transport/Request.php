@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Veronica\Transport;
 
 use ArrayObject;
+use RuntimeException;
 use Throwable;
 use Veronica\Document\Contract  as Document;
 use Veronica\Transport\Exception\RequestException;
 use const Veronica\ENV_TEST;
+use const Veronica\STATUS_AUTHORIZED;
+use const Veronica\STATUS_NOT_AUTHORIZED;
+use const Veronica\STATUS_REJECTED;
+
 use function Veronica\arr_obj;
 
 class Request
@@ -62,9 +67,47 @@ class Request
 
     public function send(Document $doc): bool
     {
-        return $this->request(POST, 'comprobantes', [
+        return $this->sendTo('sri', $doc);
+    }
+
+    protected function sendTo($path, Document $doc)
+    {
+        $res = $this->request(POST, $path, [
             'xml' => (string) $doc->pretty() . PHP_EOL . PHP_EOL
-        ])['claveAcceso'] === $doc->key;
+        ]);
+
+        $method = 'responseTo' . ucfirst($path);
+
+        return $this->$method($res, $doc);
+    }
+
+    protected function responseToSri(iterable $req, Document $doc): string
+    {
+        if (($key = $req['claveAccesoConsultada']) == $doc->key) {
+            throw new RuntimeException('Las claves no coinciden: ' . $key . ' <> ' . $doc->key);
+        }
+        if ($req['numeroComprobantes'] != 1) {
+            throw new RuntimeException('Numero de comprobantes invalidos: ' . $key);
+        }
+        $errors= [];
+        $res = $req['autorizaciones'][0];
+        if ($res['estado'] == STATUS_NOT_AUTHORIZED) {
+            foreach ($res['mensajes'] as $mess) {
+                $errors[] = $mess['tipo'] . ': ' .
+                    $mess['identificador'] . ' ' .
+                    $mess['mensaje'] . ' ' . $mess['informacionAdicional'];
+            }
+        }
+        if ($errors) {
+            throw new RuntimeException(implode(PHP_EOL, $errors));
+        }
+
+        return $res['estado'] == STATUS_AUTHORIZED ? STATUS_AUTHORIZED : STATUS_REJECTED;
+    }
+
+    protected function responseToComprobantes(iterable $res, Document $doc): string
+    {
+        return $res['claveAcceso'] == $doc->key ? STATUS_AUTHORIZED : STATUS_REJECTED;
     }
 
     public function delete(string $trackId)

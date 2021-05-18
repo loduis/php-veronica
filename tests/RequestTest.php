@@ -206,7 +206,7 @@ class RequestTest extends TestCase
         print_r($response);
     }
 
-    public function test3()
+    public function _test3()
     {
         $doc = CreditNote::fromArray([
             'environment' => 1,
@@ -297,5 +297,12 @@ class RequestTest extends TestCase
         echo $doc->key, PHP_EOL;
         $response = $request->send($doc);
         print_r($response);
+    }
+
+    public function test4()
+    {
+        $res = '{"success":true,"result":{"timestamp":1621356027000,"claveAccesoConsultada":"1805202101050350121500110010010000000141811012813","numeroComprobantes":"1","autorizaciones":[{"estado":"NO AUTORIZADO","numeroAutorizacion":null,"fechaAutorizacion":"18/05/2021 11:40:27","ambiente":"PRUEBAS","mensajes":[{"identificador":"69","mensaje":"ERROR EN LA IDENTIFICACION DEL RECEPTOR","informacionAdicional":"La longitud del número de RUC debe ser 13","tipo":"ERROR"}]}]}}';
+        $res = json_decode($res, true);
+        print_r($res);
     }
 }

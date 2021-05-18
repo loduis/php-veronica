@@ -16,6 +16,14 @@ const DOC_INVOICE = '01';
 
 const DOC_CREDIT_NOTE = '04';
 
+const STATUS_CREATED = 'CREADO';
+
+const STATUS_AUTHORIZED = 'AUTORIZADO';
+
+const STATUS_NOT_AUTHORIZED = 'NO AUTORIZADO';
+
+const STATUS_IN_PROCESSING = 'EN PROCESAMIENTO';
+
 function arr_obj($entries, $options = ArrayObject::ARRAY_AS_PROPS | ArrayObject::STD_PROP_LIST) {
     if ($entries instanceof ArrayObject) {
         return $entries;
