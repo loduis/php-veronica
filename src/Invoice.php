@@ -75,8 +75,8 @@ class Invoice extends Document\Contract
                 'codigo' => $tax->code,
                 'codigoPorcentaje' => $tax->rate_code,
                 'descuentoAdicional' => $tax->discount,
-                'tarifa' => $tax->rate,
                 'baseImponible' => $tax->base,
+                'tarifa' => $tax->rate,
                 'valor' => $tax->amount,
                 'valorDevolucionIva' => $tax->return,
             ];
