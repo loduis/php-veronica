@@ -14,6 +14,7 @@ use function Veronica\{
 
 const POST = 'POST';
 const GET = 'GET';
+const DELETE = 'DELETE';
 
 class Client
 {
@@ -83,8 +84,11 @@ class Client
             }
             $headers[] = 'Content-length: ' . mb_strlen($request);
             $options[CURLOPT_POSTFIELDS] = $request;
-        } elseif ($params) {
-            $path .= '?' . http_build_query($params);
+        } else {
+            $options[CURLOPT_CUSTOMREQUEST] = $method;
+            if ($params) {
+                $path .= '?' . http_build_query($params);
+            }
         }
         if ($this->token) {
             $headers[] =  'Authorization: Bearer ' . $this->token;

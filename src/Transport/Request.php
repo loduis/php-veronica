@@ -67,6 +67,11 @@ class Request
         ])['claveAcceso'] === $doc->key;
     }
 
+    public function delete(string $trackId)
+    {
+        return $this->request(DELETE, 'comprobantes/' . $trackId);
+    }
+
     public function first(): iterable
     {
         return $this->all(['page' => 0, 'size' => 1])['content'][0] ?? [];
