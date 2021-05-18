@@ -11,8 +11,9 @@ use Veronica\Document\Contract  as Document;
 use Veronica\Transport\Exception\RequestException;
 use const Veronica\ENV_TEST;
 use const Veronica\STATUS_AUTHORIZED;
+use const Veronica\STATUS_BACK;
+use const Veronica\STATUS_IN_PROCESSING;
 use const Veronica\STATUS_NOT_AUTHORIZED;
-use const Veronica\STATUS_REJECTED;
 
 use function Veronica\arr_obj;
 
@@ -83,31 +84,46 @@ class Request
 
     protected function responseToSri(iterable $req, Document $doc): string
     {
+        if (($req['estado'] ?? STATUS_AUTHORIZED) == STATUS_BACK) {
+            if (count($req['comprobantes']) != 1) {
+                throw new RuntimeException('Numero de comprobantes invalidos: ' . $doc->key);
+            }
+            $res = $req['comprobantes'][0];
+            throw new RuntimeException($this->processErrors($req));
+        }
         if (($key = $req['claveAccesoConsultada']) != $doc->key) {
             throw new RuntimeException('Las claves no coinciden: ' . $key . ' <> ' . $doc->key);
         }
         if ($req['numeroComprobantes'] != 1) {
-            throw new RuntimeException('Numero de comprobantes invalidos: ' . $key);
+            throw new RuntimeException('Numero de comprobantes invalidos: ' . $doc->key);
         }
-        $errors= [];
+        $errors= null;
         $res = $req['autorizaciones'][0];
         if ($res['estado'] == STATUS_NOT_AUTHORIZED) {
-            foreach ($res['mensajes'] as $mess) {
-                $errors[] = $mess['tipo'] . ': ' .
-                    $mess['identificador'] . ' ' .
-                    $mess['mensaje'] . ' ' . $mess['informacionAdicional'];
-            }
+            $errors = $this->processErrors($res);
         }
         if ($errors) {
-            throw new RuntimeException(implode(PHP_EOL, $errors));
+            throw new RuntimeException($errors);
         }
 
-        return $res['estado'] == STATUS_AUTHORIZED ? STATUS_AUTHORIZED : STATUS_REJECTED;
+        return $res['estado'] == STATUS_AUTHORIZED ? STATUS_AUTHORIZED : STATUS_IN_PROCESSING;
+    }
+
+    private function processErrors(iterable $res)
+    {
+        $errors = [];
+        foreach ($res['mensajes'] as $mess) {
+            $errors[] = $mess['tipo'] . ': ' .
+                $mess['identificador'] . ' ' .
+                $mess['mensaje'] . ' ' . $mess['informacionAdicional'];
+        }
+
+        return implode(PHP_EOL, $errors);
     }
 
     protected function responseToComprobantes(iterable $res, Document $doc): string
     {
-        return $res['claveAcceso'] == $doc->key ? STATUS_AUTHORIZED : STATUS_REJECTED;
+        return $res['claveAcceso'] == $doc->key ? STATUS_AUTHORIZED : STATUS_IN_PROCESSING;
     }
 
     public function delete(string $trackId)

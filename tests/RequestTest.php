@@ -302,6 +302,8 @@ class RequestTest extends TestCase
     public function test4()
     {
         $res = '{"success":true,"result":{"timestamp":1621356027000,"claveAccesoConsultada":"1805202101050350121500110010010000000141811012813","numeroComprobantes":"1","autorizaciones":[{"estado":"NO AUTORIZADO","numeroAutorizacion":null,"fechaAutorizacion":"18/05/2021 11:40:27","ambiente":"PRUEBAS","mensajes":[{"identificador":"69","mensaje":"ERROR EN LA IDENTIFICACION DEL RECEPTOR","informacionAdicional":"La longitud del número de RUC debe ser 13","tipo":"ERROR"}]}]}}';
+        $res = '{"success":false,"result":{"estado":"DEVUELTA","comprobantes":[{"claveAcceso":"1805202101050350121500110010010000000141811012813","mensajes":[{"identificador":"90","mensaje":"LIMITE DE INTENTOS NO AUTORIZADOS POR DIA","informacionAdicional":"La clave de acceso 1805202101050350121500110010010000000141811012813 ha superado el limite diario permitido para un comprobante no autorizado (3 intentos), para la fecha: Tue May 18 17:42:08 GMT-05:00 2021. Corrija los errores e intente nuevamente al dia siguiente.","tipo":"ERROR"}]}]}}';
+
         $res = json_decode($res, true);
         print_r($res);
     }

@@ -24,6 +24,10 @@ const STATUS_NOT_AUTHORIZED = 'NO AUTORIZADO';
 
 const STATUS_IN_PROCESSING = 'EN PROCESAMIENTO';
 
+const STATUS_REJECTED = 'RECHAZADO';
+
+const STATUS_BACK = 'DEVUELTA';
+
 function arr_obj($entries, $options = ArrayObject::ARRAY_AS_PROPS | ArrayObject::STD_PROP_LIST) {
     if ($entries instanceof ArrayObject) {
         return $entries;

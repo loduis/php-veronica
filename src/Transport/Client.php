@@ -6,7 +6,8 @@ namespace Veronica\Transport;
 
 use Veronica\Transport\Exception\RequestException;
 use const Veronica\{
-    ENV_PRO
+    ENV_PRO,
+    STATUS_BACK
 };
 use function Veronica\{
     arr_obj
@@ -107,11 +108,14 @@ class Client
         $result = json_decode($response, true);
         if (($result['success'] ?? null) === false) {
             $result = $result['result'];
-            $this->throwError(0, $result['message'], $request ?? null, [
-                'error' => $result['status'],
-                'message' => $result['message'],
-                'errors' => $result['subErrors'] ?? []
-            ]);
+            // necesit manejar el status back dentro del metodo apropiado
+            if (!isset($result['estado']) || $result['estado'] != STATUS_BACK) {
+                $this->throwError(0, $result['message'], $request ?? null, [
+                    'error' => $result['status'],
+                    'message' => $result['message'],
+                    'errors' => $result['subErrors'] ?? []
+                ]);
+            }
         }
         if (isset($result['error'])) {
             $error = $result['error_description'] ?? $result['message'];
