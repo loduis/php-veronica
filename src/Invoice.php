@@ -66,7 +66,7 @@ class Invoice extends Document\Contract
             }
         }
 
-        return $result;
+        return ['campoAdicional' => $result];
     }
 
     protected function getItems(iterable $items): array
