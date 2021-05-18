@@ -83,7 +83,7 @@ class Request
 
     protected function responseToSri(iterable $req, Document $doc): string
     {
-        if (($key = $req['claveAccesoConsultada']) == $doc->key) {
+        if (($key = $req['claveAccesoConsultada']) != $doc->key) {
             throw new RuntimeException('Las claves no coinciden: ' . $key . ' <> ' . $doc->key);
         }
         if ($req['numeroComprobantes'] != 1) {
