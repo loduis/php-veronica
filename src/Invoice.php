@@ -54,13 +54,19 @@ class Invoice extends Document\Contract
 
     protected function getExtraInfo(): array
     {
-        return [
-            'campoAdicional' => [
-                new Single($this->customer->phone, ['nombre' => 'Telefono']),
-                new Single($this->customer->email, ['nombre' => 'Email']),
-                new Single($this->comments, ['nombre' => 'Observaciones' ])
-            ]
+        $entries = [
+            'Telefono' => $this->customer->phone,
+            'Email' => $this->customer->email,
+            'Observaciones' => $this->comments,
         ];
+        $result = [];
+        foreach ($entries as $field => $value) {
+            if ($value) {
+                $result[] = new Single($value, ['nombre' => $field]);
+            }
+        }
+
+        return $result;
     }
 
     protected function getItems(iterable $items): array
