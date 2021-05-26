@@ -66,12 +66,12 @@ class Request
         ]);
     }
 
-    public function send(Document $doc): bool
+    public function send(Document $doc): string
     {
         return $this->sendTo('sri', $doc);
     }
 
-    protected function sendTo($path, Document $doc)
+    protected function sendTo($path, Document $doc): string
     {
         $res = $this->request(POST, $path, [
             'xml' => (string) $doc->pretty() . PHP_EOL . PHP_EOL
