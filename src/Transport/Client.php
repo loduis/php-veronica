@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Veronica\Transport;
 
+use Throwable;
 use Veronica\Transport\Exception\RequestException;
 use const Veronica\{
     ENV_PRO,
@@ -129,8 +130,14 @@ class Client
                 $result
             );
         }
-
-        return arr_obj($result['result'] ?? $result);
+        try {
+            return arr_obj($result['result'] ?? $result);
+        } catch (Throwable $e) {
+            if (!isset($e->response)) {
+                $e->response = $response;
+            }
+            throw $e;
+        }
     }
 
     private function throwError(int $code, string $message, ?string $request, iterable $response): void
