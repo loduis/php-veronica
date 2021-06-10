@@ -8,7 +8,8 @@ use Throwable;
 use Veronica\Transport\Exception\RequestException;
 use const Veronica\{
     ENV_PRO,
-    STATUS_BACK
+    STATUS_BACK,
+    STATUS_RECEIVED
 };
 use function Veronica\{
     arr_obj
@@ -109,8 +110,8 @@ class Client
         $result = json_decode($response, true);
         if (($result['success'] ?? null) === false) {
             $result = $result['result'];
-            // necesit manejar el status back dentro del metodo apropiado
-            if (!isset($result['estado']) || $result['estado'] != STATUS_BACK) {
+            // necesita manejar el status back dentro del metodo apropiado
+            if (!isset($result['estado']) || !in_array($result['estado'], [STATUS_BACK, STATUS_RECEIVED])) {
                 $this->throwError(0, $result['message'], $request ?? null, [
                     'error' => $result['status'],
                     'message' => $result['message'],

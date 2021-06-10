@@ -28,6 +28,8 @@ const STATUS_REJECTED = 'RECHAZADO';
 
 const STATUS_BACK = 'DEVUELTA';
 
+const STATUS_RECEIVED = 'RECIBIDA';
+
 function arr_obj($entries, $options = ArrayObject::ARRAY_AS_PROPS | ArrayObject::STD_PROP_LIST) {
     if ($entries instanceof ArrayObject) {
         return $entries;
